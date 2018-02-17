@@ -150,9 +150,11 @@ function connectServer(host) {
         var newimage = electron.nativeImage.createFromBuffer(data);
         //settingsWin.send("log2console", newimage.isEmpty());// if true, what was received was not image....
         if (!newimage.isEmpty()) {
+            clipboard.clear();
             clipboard.writeImage(newimage);
         }
         else {
+            clipboard.clear();
             clipboard.writeText(data.toString());
         }
     });
@@ -212,9 +214,11 @@ function createServer() {
                     var newimage = electron.nativeImage.createFromBuffer(chunk);
                     //settingsWin.send("log2console", newimage.isEmpty());// if true, what was received was not image....
                     if (!newimage.isEmpty()) {
+                        clipboard.clear();
                         clipboard.writeImage(newimage);
                     }
                     else {
+                        clipboard.clear();
                         clipboard.writeText(chunk.toString());
                     }
                 }
