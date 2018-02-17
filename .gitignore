@@ -259,3 +259,8 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/DECSV_project/dist/win-unpacked
+/DECSV_project/dist/win-unpacked
+/DECSV_project/dist/win-unpacked
+/DECSV_project/dist
+/DECSV_project/dist
