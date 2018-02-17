@@ -215,7 +215,7 @@ function createServer() {
                         clipboard.writeImage(newimage);
                     }
                     else {
-                        clipboard.writeText(data.toString());
+                        clipboard.writeText(chunk.toString());
                     }
                 }
             }
