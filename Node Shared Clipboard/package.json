@@ -1,0 +1,42 @@
+{
+  "name": "node-shared-clipboard",
+  "version": "0.0.0",
+  "description": "Node Shared Clipboard",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron .",
+    "pack-win": "electron-builder --win --ia32 --dir",
+    "dist-win": "electron-builder --win --ia32",
+    "dist-multi": "electron-builder -mwl",
+    "release": "build --win --ia32 -p always"
+  },
+  "build": {
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Tyaisurm",
+        "repo": ""
+      }
+    ],
+    "appId": "com.squirrel.sclip.SClip",
+    "win": {
+      "target": "nsis",
+      "icon": "./build-icon.ico"
+    },
+    "mac": {
+      "category": "editor",
+      "target": "default"
+    }
+  },
+  "author": {
+    "name": "jaakk"
+  },
+  "licence": "MIT",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "electron": "^1.8.2",
+    "electron-builder": "^20.0.4"
+  }
+}

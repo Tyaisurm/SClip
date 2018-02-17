@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Setup</title>
+    <script>window.$ = require('jquery');</script>
+    <link rel="stylesheet" href="./w3.css">
+    <style>
+        .not-shown {
+            visibility: hidden;
+            opacity: 0;
+        }
+        .disable-select {
+            -webkit-user-select: none;
+        }
+
+        .element-disabled {
+            pointer-events: none !important;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="disable-select">
+    <div class="w3-container" style="
+    text-align: center;
+">
+        <div style="">
+            <h1>Setup of SClip Application</h1>
+        </div>
+        <div id="inputDIV" class="w3-panel">
+            <div class="w3-gray w3-bar" style="padding-top: 10px;padding-bottom: 10px;">
+                <button id="set-client-btn" class="w3-button w3-blue w3-bar-item">Setup Client</button>
+                <input id="set-client-input" placeholder="Enter Server IP Address" class="w3-bar-item">
+                <p style="margin: 0px;color:red;" id="client-error" class="w3-bar-item w3-right"></p>
+            </div>
+            <div class="w3-light-gray w3-bar" style="
+    padding-bottom: 10px;
+    padding-top: 10px;
+">
+                <button id="set-server-btn" class="w3-button w3-red w3-bar-item">Setup Server</button>
+            </div>
+        </div>
+        <div class="w3-panel">
+            <button id="close-win-btn" class="w3-button w3-black">Close this window</button>
+            <h1 id="mode-h1">Current mode: Nothing</h1>
+        </div>
+        <div id="statusDIV" class="not-shown">
+            <h1>You have set up the application! Restart to re-setup!</h1>
+        </div>
+    </div>
+    <script>require('./settings');</script>
+
+</body>
+</html>

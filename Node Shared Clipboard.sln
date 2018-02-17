@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "Node Shared Clipboard", "Node Shared Clipboard\Node Shared Clipboard.njsproj", "{90F490C8-0275-474F-8EDB-153FCDCA3BCE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90F490C8-0275-474F-8EDB-153FCDCA3BCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F490C8-0275-474F-8EDB-153FCDCA3BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F490C8-0275-474F-8EDB-153FCDCA3BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F490C8-0275-474F-8EDB-153FCDCA3BCE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B254BF5B-4A40-4E94-8509-B72D33837D62}
+	EndGlobalSection
+EndGlobal
