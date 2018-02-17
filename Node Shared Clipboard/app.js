@@ -42,7 +42,7 @@ ipcMain.on('start-server', (event, arg) => { //setup server
 });
 ipcMain.on('start-client', (event, arg) => { //setup client
     appIcon.setImage(path.join(__dirname, "win-icon-blue.png"));
-    appIcon.setToolTip('SClip Application - Client')
+    appIcon.setToolTip("SClip Application - Client")
     //console.log(arg);
     console.log("start-client: MAIN");
     setted_up = true;
@@ -53,7 +53,7 @@ ipcMain.on('start-client', (event, arg) => { //setup client
 });
 
 function checkAndPush() {
-    console.log('checkAndPush');
+    console.log("checkAndPush");
     //console.log("peers: "+peers);
     var clipboardContent = null;
     var availableformats = clipboard.availableFormats();
@@ -67,17 +67,18 @@ function checkAndPush() {
         temp = clipboard.readImage();
         clipboardContent = getImageBuffer(temp, availableformats);
     }
+    //console.log(clipboardContent.toString());
     if (clipboardContent === null || clipboardContent.length === 0 || peers.length === 0) {
-        console.log("INVALID CONTENTS!");
+        //console.log("INVALID CONTENTS!");
         return;
     }
     if (last_clipboard_content !== null) {
         if (clipboardContent.equals(last_clipboard_content)){
-            console.log("INVALID CONTENTS!");
+            //console.log("INVALID CONTENTS!");
             return;
         }
     }
-    console.log("VALID! Continuing...");
+    //console.log("VALID! Continuing...");
 
     //settingsWin.send("log2console", clipboardContent);
     //settingsWin.send("log2console", last_clipboard_content);
@@ -85,20 +86,11 @@ function checkAndPush() {
     //console.log("######################################");
     var messageData = clipboardContent
     
-    /*
-    // create message
-    var messageLength = Buffer.byteLength(clipboardText, 'utf8') + 8;
-    var messageData = new Buffer(messageLength);
-    // message length
-    messageData.writeInt32BE(messageLength, 0);
-    // clipboard type
-    messageData.write("\x00\x00\x00\x01", 4);
-    messageData.write(clipboardText, 8);
-    */
-    console.log("messageData: "+ messageData);
+    //console.log("messageData: "+ messageData);
     for (var i = 0; i < peers.length; i++) {
         var socket = peers[i];
         console.log("Sending to peer: " + i);
+        //console.log(messageData);
         socket.write(messageData);
     }
     //console.log("Replacing old clipdata....");
@@ -124,29 +116,24 @@ function getImageBuffer(data, formats) {
 
 function connectServer(host) {
     console.log("connectServer: "+host);
-// connect to a server
+//connect to server
+    
     if (server_client !== null) {
         server_client.destroy();
         server_client = null;
     }
+    
 
     server_client = net.connect({ port: port, host: host },
         function () {
-            console.log('client connected');
-            // add client to the list
+            console.log("client connected");
+            //add new client
             peers.push(server_client);
             console.log("PEER ADDED(connectServer): " + server_client.remoteAddress + ":" + server_client.remotePort);
             checkAndPush();
         });
     server_client.on('data', function (data) {
-        console.log("CLIENT DATA");
-        //console.log(data.toString());
-        //client.end();
-        //writeToClipboard(data); _>>>>>>>>> ELECTRON
-        //console.log("typeof: " + typeof (data));
-        //var testing = new Buffer(data, 'base64').toString('binary');
-        //settingsWin.send("log2console", data);
-        //settingsWin.send("log2console", data.toString());
+        
         var newimage = electron.nativeImage.createFromBuffer(data);
         //settingsWin.send("log2console", newimage.isEmpty());// if true, what was received was not image....
         if (!newimage.isEmpty()) {
@@ -159,19 +146,19 @@ function connectServer(host) {
         }
     });
     server_client.on('end', function () {
-        console.log('client disconnected');
+        console.log("client disconnected");
         var index = peers.indexOf(server_client);
         if (index > -1) {
-            console.log('remove client - end');
+            console.log("remove client - end");
             peers.splice(index, 1);
             //server_client = null;
             setted_up = false
             setted_mode = "nothing";
-            if (mainWindow !== null) { mainWindow.reload(); }
+            if (mainWindow !== null) { mainWindow.reload(); appIcon.setImage(path.join(__dirname, "win-icon.png")); }
         }
     });
     server_client.on('error', function () {
-        console.log('client error');
+        console.log("client error");
         var index = peers.indexOf(server_client);
         if (index > -1) {
             console.log('remove client - error');
@@ -180,7 +167,7 @@ function connectServer(host) {
             setted_up = false
             setted_mode = "nothing";
             //server_client.destroy();
-            if (mainWindow !== null) { mainWindow.reload(); }
+            if (mainWindow !== null) { mainWindow.reload(); appIcon.setImage(path.join(__dirname, "win-icon.png")); }
         }
     });
     //setTimeout(function () { server_client.end()}, 5000);
@@ -196,19 +183,19 @@ function createServer() {
     }
 
     server_server = net.createServer(function (socket) {
-        // add client to the list
+        //add new client
         peers.push(socket);
         console.log("PEER ADDED(createServer): " + socket.remoteAddress + ":" + socket.remotePort);
 
-        // broadcast the data
+        //send data
         socket.on('data', function (chunk) {
             //console.log("SOCKET DATA");
             for (var i = 0; i < peers.length; i++) {
                 var client = peers[i];
                 if (client != socket) {
-                    //console.log('write to client: '+i);
+                    console.log("write to client: " + i);
+                    //console.log(chunk.toString());
                     client.write(chunk);
-                    //console.log("HUEHUEHUEHUE");
                 }
                 else {
                     var newimage = electron.nativeImage.createFromBuffer(chunk);
@@ -225,29 +212,29 @@ function createServer() {
             }
         });
 
-        // remove client from the list
+        //remove client
         socket.on('end', function () {
             var index = peers.indexOf(socket);
             if (index > -1) {
-                console.log('removed client: end');
+                console.log("removed client: end");
                 peers.splice(index, 1);
             }
-            console.log('client disconnected');
+            console.log("client disconnected");
         });
 
-        // error handling
+        //error handling
         socket.on('error', function (err) {
-            console.log('Caught error');
+            console.log("Caught error");
             var index = peers.indexOf(socket);
             if (index > -1) {
-                console.log('removed client: error');
+                console.log("removed client: error");
                 peers.splice(index, 1);
             }
         });
     });
 
     server_server.listen(port, function () {
-        console.log('server bound to port '+port);
+        console.log("server bound to port "+port);
     });
     checkTimer = setInterval(checkAndPush, 1000);
 }
@@ -268,7 +255,6 @@ function createApp() {
                 
                 mainWindow = new BrowserWindow({ width: 800, height: 600, frame: false })
 
-                // and load the index.html of the app.
                 mainWindow.loadURL(url.format({
                     pathname: path.join(__dirname, 'settings.html'),
                     protocol: 'file:',
@@ -299,7 +285,6 @@ function createApp() {
 
     // Call this again for Linux because we modified the context menu
     appIcon.setToolTip('SClip Application')
-    //appIcon.setTitle("SDADASADS");
     appIcon.setContextMenu(contextMenu)
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

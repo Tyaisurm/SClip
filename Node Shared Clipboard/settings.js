@@ -7,13 +7,12 @@ const currentWindow = remote.getCurrentWindow();
 let is_setted = false;
 toggleviewmode(0);
 toggleviewmode(2);
-//console.log("sending is set up query");
+
 ipcRenderer.send('is-set-up', currentWindow.id);
 
 ipcRenderer.on('log2console', (event, arg) => {//log stuff for closer inspection into chrome console
-    //console.log("start-server-reply: RENDERER");
+    console.log("start-server-reply: RENDERER");
     console.log(arg);
-    //event.sender.send('asynchronous-reply', 'pong')
 });
 
 
@@ -22,14 +21,12 @@ ipcRenderer.on('start-server-reply', (event, arg) => {//server start underway
     console.log(arg);
     toggleviewmode(1);
     $("#mode-h1").text("Current mode: server");
-    //event.sender.send('asynchronous-reply', 'pong')
 });
 ipcRenderer.on('start-client-reply', (event, arg) => {//client start underway
     console.log("start-client-reply: RENDERER");
     console.log(arg);
     toggleviewmode(1);
     $("#mode-h1").text("Current mode: client");
-    //event.sender.send('asynchronous-reply', 'pong')
 });
 ipcRenderer.on('is-set-up-reply', (event, arg) => {//is already setted up! nothing to do here...
     console.log("is-set-up-reply: RENDERER");
@@ -44,7 +41,6 @@ ipcRenderer.on('is-set-up-reply', (event, arg) => {//is already setted up! nothi
         toggleviewmode(3);
         toggleviewmode(0);
     }
-    //event.sender.send('asynchronous-reply', 'pong')
 });
 
 document.getElementById("close-win-btn").onclick = function () {
@@ -77,9 +73,6 @@ currentWindow.on('blur', function () { $("html").css("opacity", "0.5"); });
 
 function validateIPaddress(ipaddress) {
     if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
-        return (true)
-    }
-    else if (ipaddress === "localhost"){
         return (true)
     }
     console.log("You have entered an invalid IP address!")

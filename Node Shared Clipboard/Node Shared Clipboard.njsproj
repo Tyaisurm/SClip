@@ -32,12 +32,6 @@
     <Compile Include="app.js">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="client.js">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="server.js">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="settings.js">
       <SubType>Code</SubType>
     </Compile>

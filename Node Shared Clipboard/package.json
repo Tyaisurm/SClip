@@ -1,7 +1,7 @@
 {
   "name": "node-shared-clipboard",
   "productName": "SClip Shared Clipboard",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Node Shared Clipboard",
   "main": "app.js",
   "scripts": {
