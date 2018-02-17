@@ -68,16 +68,16 @@ function checkAndPush() {
         clipboardContent = getImageBuffer(temp, availableformats);
     }
     if (clipboardContent === null || clipboardContent.length === 0 || peers.length === 0) {
-        //console.log("INVALID CONTENTS!");
+        console.log("INVALID CONTENTS!");
         return;
     }
     if (last_clipboard_content !== null) {
         if (clipboardContent.equals(last_clipboard_content)){
-            //console.log("INVALID CONTENTS!");
+            console.log("INVALID CONTENTS!");
             return;
         }
     }
-    //console.log("VALID! Continuing...");
+    console.log("VALID! Continuing...");
 
     //settingsWin.send("log2console", clipboardContent);
     //settingsWin.send("log2console", last_clipboard_content);
@@ -95,7 +95,7 @@ function checkAndPush() {
     messageData.write("\x00\x00\x00\x01", 4);
     messageData.write(clipboardText, 8);
     */
-    //console.log("messageData: "+ messageData);
+    console.log("messageData: "+ messageData);
     for (var i = 0; i < peers.length; i++) {
         var socket = peers[i];
         console.log("Sending to peer: " + i);
@@ -139,7 +139,7 @@ function connectServer(host) {
             checkAndPush();
         });
     server_client.on('data', function (data) {
-        //console.log("CLIENT DATA");
+        console.log("CLIENT DATA");
         //console.log(data.toString());
         //client.end();
         //writeToClipboard(data); _>>>>>>>>> ELECTRON
@@ -207,6 +207,16 @@ function createServer() {
                     //console.log('write to client: '+i);
                     client.write(chunk);
                     //console.log("HUEHUEHUEHUE");
+                }
+                else {
+                    var newimage = electron.nativeImage.createFromBuffer(chunk);
+                    //settingsWin.send("log2console", newimage.isEmpty());// if true, what was received was not image....
+                    if (!newimage.isEmpty()) {
+                        clipboard.writeImage(newimage);
+                    }
+                    else {
+                        clipboard.writeText(data.toString());
+                    }
                 }
             }
         });
