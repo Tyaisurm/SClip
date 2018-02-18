@@ -158,6 +158,11 @@ function connectServer(host) {
             let myNotification = new Notification('Client disconnected(CLIENT)', {
                 body: 'SClip client has been disconnected!'
             })
+            if (server_server !== null) {
+                server_server.close();
+                server_server = null;
+                clearInterval(checkTimer);
+            }
         }
     });
     server_client.on('error', function () {
@@ -174,6 +179,11 @@ function connectServer(host) {
             let myNotification = new Notification('Client removed(CLIENT)', {
                 body: 'SClip client has been removed because of an error!'
             })
+            if (server_server !== null) {
+                server_server.close();
+                server_server = null;
+                clearInterval(checkTimer);
+            }
         }
     });
     //setTimeout(function () { server_client.end()}, 5000);
