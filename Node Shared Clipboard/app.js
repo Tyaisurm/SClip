@@ -155,6 +155,9 @@ function connectServer(host) {
             setted_up = false
             setted_mode = "nothing";
             if (mainWindow !== null) { mainWindow.reload(); appIcon.setImage(path.join(__dirname, "win-icon.png")); }
+            let myNotification = new Notification('Client disconnected(CLIENT)', {
+                body: 'SClip client has been disconnected!'
+            })
         }
     });
     server_client.on('error', function () {
@@ -168,6 +171,9 @@ function connectServer(host) {
             setted_mode = "nothing";
             //server_client.destroy();
             if (mainWindow !== null) { mainWindow.reload(); appIcon.setImage(path.join(__dirname, "win-icon.png")); }
+            let myNotification = new Notification('Client removed(CLIENT)', {
+                body: 'SClip client has been removed because of an error!'
+            })
         }
     });
     //setTimeout(function () { server_client.end()}, 5000);
@@ -220,6 +226,9 @@ function createServer() {
                 peers.splice(index, 1);
             }
             console.log("client disconnected");
+            let myNotification = new Notification('Client disconnected(SERVER)', {
+                body: 'SClip client has been disconnected!'
+            })
         });
 
         //error handling
@@ -229,6 +238,9 @@ function createServer() {
             if (index > -1) {
                 console.log("removed client: error");
                 peers.splice(index, 1);
+                let myNotification = new Notification('Client removed(SERVER)', {
+                    body: 'SClip client has been removed because of an error!'
+                })
             }
         });
     });
@@ -286,6 +298,14 @@ function createApp() {
     // Call this again for Linux because we modified the context menu
     appIcon.setToolTip('SClip Application')
     appIcon.setContextMenu(contextMenu)
+
+    if (process.platform === "win32") {
+        var ballOptions = {
+            title: "SClip Application",
+            content: "Application started. Click tray icon for setup."
+        }
+        appIcon.displayBalloon(ballOptions);
+    }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 }
